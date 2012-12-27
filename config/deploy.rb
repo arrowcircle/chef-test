@@ -39,4 +39,5 @@ namespace :deploy do
     run "rm -Rf #{release_path}/public/uploads"
     run "ln -s #{shared_path}/uploads #{release_path}/public/uploads"
   end
+  after "deploy:finalize_update", "deploy:symlink"
 end
