@@ -33,11 +33,12 @@ namespace :deploy do
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "sudo service #{application} restart"
   end
-
+end
+namespace :uploads do
   task :symlink do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     run "rm -Rf #{release_path}/public/uploads"
     run "ln -s #{shared_path}/uploads #{release_path}/public/uploads"
   end
 end
-after "deploy:finalize_update", "deploy:symlink"
+after "deploy:finalize_update", "uploads:symlink"
